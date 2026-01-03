@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2024, The Monero Project
+// Parts are Copyright (c) 2019, The Dinastycoin team
 //
 // All rights reserved.
 //
@@ -26,7 +26,7 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Parts of this file are originally copyright (c) 2012-2013 The Cryptonote developers
+// Parts of this file are originally copyright (c) 2015-2019 The Monero Project
 
 #include "checkpoints.h"
 
@@ -38,11 +38,12 @@
 #include <boost/filesystem.hpp>
 #include <functional>
 #include <vector>
+//#include <boost/bind.hpp>
 
 using namespace epee;
 
-#undef MONERO_DEFAULT_LOG_CATEGORY
-#define MONERO_DEFAULT_LOG_CATEGORY "checkpoints"
+#undef DINASTYCOIN_DEFAULT_LOG_CATEGORY
+#define DINASTYCOIN_DEFAULT_LOG_CATEGORY "checkpoints"
 
 namespace cryptonote
 {
@@ -157,7 +158,7 @@ namespace cryptonote
       return 0;
     return m_points.rbegin()->first;
   }
-  //---------------------------------------------------------------------------
+ //---------------------------------------------------------------------------
   uint64_t checkpoints::get_nearest_checkpoint_height(uint64_t block_height) const
   {
     if (m_points.empty())
@@ -197,79 +198,56 @@ namespace cryptonote
   {
     if (nettype == TESTNET)
     {
-      ADD_CHECKPOINT2(0,     "48ca7cd3c8de5b6a4d53d2861fbdaedca141553559f9be9520068053cda8430b", "0x1");
-      ADD_CHECKPOINT2(1000000, "46b690b710a07ea051bc4a6b6842ac37be691089c0f7758cfeec4d5fc0b4a258", "0x7aaad7153");
-      ADD_CHECKPOINT2(1058600, "12904f6b4d9e60fd875674e07147d2c83d6716253f046af7b894c3e81da7e1bd", "0x971efd119");
-      ADD_CHECKPOINT2(1450000, "87562ca6786f41556b8d5b48067303a57dc5ca77155b35199aedaeca1550f5a0", "0xa639e2930e");
+
       return true;
     }
     if (nettype == STAGENET)
     {
-      ADD_CHECKPOINT2(0,       "76ee3cc98646292206cd3e86f74d88b4dcc1d937088645e9b0cbca84b7ce74eb", "0x1");
-      ADD_CHECKPOINT2(10000,   "1f8b0ce313f8b9ba9a46108bfd285c45ad7c2176871fd41c3a690d4830ce2fd5", "0x1d73ba");
-      ADD_CHECKPOINT2(550000,  "409f68cddd8e74b37469b41c1e61250d81c5776b42264f416d5d27c4626383ed", "0x5f3d4d03e");
+
       return true;
     }
-    ADD_CHECKPOINT2(1,     "771fbcd656ec1464d3a02ead5e18644030007a0fc664c0a964d30922821a8148", "0x2");
-    ADD_CHECKPOINT2(10,    "c0e3b387e47042f72d8ccdca88071ff96bff1ac7cde09ae113dbb7ad3fe92381", "0x2a974");
-    ADD_CHECKPOINT2(100,   "ac3e11ca545e57c49fca2b4e8c48c03c23be047c43e471e1394528b1f9f80b2d", "0x35d14b");
-    ADD_CHECKPOINT2(1000,  "5acfc45acffd2b2e7345caf42fa02308c5793f15ec33946e969e829f40b03876", "0x36a0373");
-    ADD_CHECKPOINT2(10000, "c758b7c81f928be3295d45e230646de8b852ec96a821eac3fea4daf3fcac0ca2", "0x60a91390");
-    ADD_CHECKPOINT2(22231, "7cb10e29d67e1c069e6e11b17d30b809724255fee2f6868dc14cfc6ed44dfb25", "0x1e288793d");
-    ADD_CHECKPOINT2(29556, "53c484a8ed91e4da621bb2fa88106dbde426fe90d7ef07b9c1e5127fb6f3a7f6", "0x71f64cce8");
-    ADD_CHECKPOINT2(50000, "0fe8758ab06a8b9cb35b7328fd4f757af530a5d37759f9d3e421023231f7b31c", "0x893044b400");
-    ADD_CHECKPOINT2(80000, "a62dcd7b536f22e003ebae8726e9e7276f63d594e264b6f0cd7aab27b66e75e3", "0x5cc113f1076");
-    ADD_CHECKPOINT2(202612, "bbd604d2ba11ba27935e006ed39c9bfdd99b76bf4a50654bc1e1e61217962698", "0x73310a259eb2");
-    ADD_CHECKPOINT2(202613, "e2aa337e78df1f98f462b3b1e560c6b914dec47b610698b7b7d1e3e86b6197c2", "0x733154039b97");
-    ADD_CHECKPOINT2(202614, "c29e3dc37d8da3e72e506e31a213a58771b24450144305bcba9e70fa4d6ea6fb", "0x73319dc90cb6");
-    ADD_CHECKPOINT2(205000, "5d3d7a26e6dc7535e34f03def711daa8c263785f73ec1fadef8a45880fde8063", "0x75fcc3d85123");
-    ADD_CHECKPOINT2(220000, "9613f455933c00e3e33ac315cc6b455ee8aa0c567163836858c2d9caff111553", "0x89cfed0cae3c");
-    ADD_CHECKPOINT2(230300, "bae7a80c46859db355556e3a9204a337ae8f24309926a1312323fdecf1920e61", "0x967d13e5baa9");
-    ADD_CHECKPOINT2(230700, "93e631240ceac831da1aebfc5dac8f722c430463024763ebafa888796ceaeedf", "0x96fb9663ebe7");
-    ADD_CHECKPOINT2(231350, "b5add137199b820e1ea26640e5c3e121fd85faa86a1e39cf7e6cc097bdeb1131", "0x97b9919177bf");
-    ADD_CHECKPOINT2(232150, "955de8e6b6508af2c24f7334f97beeea651d78e9ade3ab18fec3763be3201aa8", "0x98a038b612e8");
-    ADD_CHECKPOINT2(249380, "654fb0a81ce3e5caf7e3264a70f447d4bd07586c08fa50f6638cc54da0a52b2d", "0xac9739634e6d");
-    ADD_CHECKPOINT2(460000, "75037a7aed3e765db96c75bcf908f59d690a5f3390baebb9edeafd336a1c4831", "0x167799549bdda");
-    ADD_CHECKPOINT2(500000, "2428f0dbe49796be05ed81b347f53e1f7f44aed0abf641446ec2b94cae066b02", "0x188ce145e4ba9");
-    ADD_CHECKPOINT2(600000, "f5828ebf7d7d1cb61762c4dfe3ccf4ecab2e1aad23e8113668d981713b7a54c5", "0x1d9f3759e1554");
-    ADD_CHECKPOINT2(700000, "12be9b3d210b93f574d2526abb9c1ab2a881b479131fd0d4f7dac93875f503cd", "0x2201e4ee39c2c");
-    ADD_CHECKPOINT2(825000, "56503f9ad766774b575be3aff73245e9d159be88132c93d1754764f28da2ff60", "0x27565a442d5df");
-    ADD_CHECKPOINT2(900000, "d9958d0e7dcf91a5a7b11de225927bf7efc6eb26240315ce12372be902cc1337", "0x2a6334031546e");
-    ADD_CHECKPOINT2(913193, "5292d5d56f6ba4de33a58d9a34d263e2cb3c6fee0aed2286fd4ac7f36d53c85f", "0x2aefe7f40f5ea");
-    ADD_CHECKPOINT2(1000000, "a886ef5149902d8342475fee9bb296341b891ac67c4842f47a833f23c00ed721", "0x2edd71370f0e5");
-    ADD_CHECKPOINT2(1100000, "3fd720c5c8b3072fc1ccda922dec1ef25f9ed88a1e6ad4103d0fe00b180a5903", "0x390eb0035c53a");
-    ADD_CHECKPOINT2(1150000, "1dd16f626d18e1e988490dfd06de5920e22629c972c58b4d8daddea0038627b2", "0x422d5662e9e37");
-    ADD_CHECKPOINT2(1200000, "fa7d13a90850882060479d100141ff84286599ae39c3277c8ea784393f882d1f", "0x4c73503fc4aa3");
-    ADD_CHECKPOINT2(1300000, "31b34272343a44a9f4ac7de7a8fcf3b7d8a3124d7d6870affd510d2f37e74cd0", "0x723f49bc249d5");
-    ADD_CHECKPOINT2(1390000, "a8f5649dd4ded60eedab475f2bec8c934681c07e3cf640e9be0617554f13ff6c", "0xb4bba65e2841b");
-    ADD_CHECKPOINT2(1450000, "ac94e8860093bc7c83e4e91215cba1d663421ecf4067a0ae609c3a8b52bcfac2", "0x11a4aabdca9511");
-    ADD_CHECKPOINT2(1530000, "01759bce497ec38e63c78b1038892169203bb78f87e488172f6b854fcd63ba7e", "0x2819ce9f9e91e5");
-    ADD_CHECKPOINT2(1579000, "7d0d7a2346373afd41ed1e744a939fc5d474a7dbaa257be5c6fff4009e789241", "0x357a590e7dda83");
-    ADD_CHECKPOINT2(1668900, "ac2dcaf3d2f58ffcf8391639f0f1ebafcb8eac43c49479c7c37f611868d07568", "0x474226e475cc3b");
-    ADD_CHECKPOINT2(1775600, "1c6e01c661dc22cab939e79ec6a5272190624ce8356d2f7b958e4f9a57fdb05e", "0x5e3b9d206a27c6");
-    ADD_CHECKPOINT2(1856000, "9b57f17f29c71a3acd8a7904b93c41fa6eb8d2b7c73936ce4f1702d14880ba29", "0x6bde5e1caccee1");
-    ADD_CHECKPOINT2(1958000, "98a5d6e51afdf3146e0eefb10a66e8648d8d4d5c2742be8835e976ba217c9bb2", "0x79dd46d2a0971a");
-    ADD_CHECKPOINT2(2046000, "5e867f0b8baefed9244a681df97fc885d8ab36c3dfcd24c7a3abf3b8ac8b8314", "0x9cb8b6ff2978c6");
-    ADD_CHECKPOINT2(2092500, "c4e00820c9c7989b49153d5e90ae095a18a11d990e82fcc3be54e6ed785472b5", "0xb4e585a31369cb");
-    ADD_CHECKPOINT2(2182500, "0d22b5f81982eff21d094af9e821dc2007e6342069e3b1a37b15d97646353124", "0xead4a874083492");
-    ADD_CHECKPOINT2(2661600, "41c9060e8426012238e8a26da26fcb90797436896cc70886a894c2c560bcccf2", "0x2e0d87526ff161f");
-    ADD_CHECKPOINT2(2677000, "1b9fee6246eeb176bd17d637bf252e9af54a4218675f01b4449cc0901867f9eb", "0x2f165bc1a5163ba");
-    ADD_CHECKPOINT2(2706000, "d8eb144c5e1fe6b329ecc900ec95e7792fccff84175fb23a25ed59d7299a511c", "0x310f7d89372f705");
-    ADD_CHECKPOINT2(2720000, "b19fb41dff15bd1016afbee9f8469f05aab715c9e5d1b974466a11fd58ecbb86", "0x3216b5851ddbb61");
-    ADD_CHECKPOINT2(2817000, "39726d19ccaac01d150bec827b877ffae710b516bd633503662036ef4422e577", "0x3900669561954c1");
-    ADD_CHECKPOINT2(2844000, "28fc7b446dfef5b469f5778eb72ddf32a307a5f5a9823d1c394e772349e05d40", "0x3af384ec0e97d12");
-    ADD_CHECKPOINT2(2851000, "5bf0e47fc782263191a33f63a67db6c711781dc2a3c442e17ed901ec401be5c9", "0x3b6cd8a8ed610e8");
-    ADD_CHECKPOINT2(2971000, "3d4cac5ac515eeabd18769ab943af85f36db51d28720def0d0e6effc2c8f5ce3", "0x436e532738b8b5b");
-    ADD_CHECKPOINT2(2985000, "08f5e6b7301c1b6ed88268a28f8677a06e8ff943b3f9e48d3080f71f9c134bfb", "0x444b7b42a633c96");
-    ADD_CHECKPOINT2(3088000, "bddf8ca09110d33d6d497f13a113630c2b6af1c84d4f3a6f35cb1446f2604ade", "0x4aed3615c2f8c3e");
-    ADD_CHECKPOINT2(3102800, "083f4a34f9490403b564286e7f13fd1ed45c52c86fa47195f151594e5bc87504", "0x4bbed52d4da5dfb");
-    ADD_CHECKPOINT2(3198000, "1d685b39be51e4e84e0af69fa78e023c7cb21de7d33acd012d0371d5f78712d5", "0x517d415fee3a816");
-    ADD_CHECKPOINT2(3375700, "96ef57b830ef7a7ccb61ada8595a4670765b6954d8cbf45c6cf583700a676302", "0x61209b7da8a0fa6");
-    ADD_CHECKPOINT2(3451000, "0cbc912e06e1adae11f6c9cb675d3159d225b4b04d4a6c61defe50ae1816dd60", "0x6aa5fc4226bab97");
-    ADD_CHECKPOINT2(3482000, "629071b10ddad67bdc6156102aba8e008a754c91da252eede852fff9175a9f0a", "0x6f1063da7e70c0e");
-    ADD_CHECKPOINT2(3516300, "fa08acbcda99fcc3cd94a749364a29fa6de9501a023cb6673d0c68fdf988b7c3", "0x738f0af4d65d459");
-    ADD_CHECKPOINT2(3541000, "74c457bed9ceef40f31f43bb8fab804077519d45c910dcad2acf4dd8556195c7", "0x76ff158c682d218");
-    ADD_CHECKPOINT2(3576000, "5da4891bfd06be270193bd949f2a623a2b0cb0ebfaad21c70a6cb18e418e5b6a", "0x7cb2e203e867b57");
+	    ADD_CHECKPOINT(1,    "7b9b6064c13231bda96759fcabd21255af66f94ddece53695509ecb528479667");
+	    ADD_CHECKPOINT(10 , "7fff6b1b180abe1ade902232b0d39372dd165e82addd0a12514b69115ab29789");
+	    ADD_CHECKPOINT(100, "b922e51c7cccba7f7fd12b395b942a6092566c47879862b127405dc16c3b415a");
+	    ADD_CHECKPOINT(500, "4161494672a7ef39e1a1c6d5e4b3c6e899b5a945cd1dd7239ad734189c663f29");
+	    ADD_CHECKPOINT(1000, "f75b44cbf1f070814ae83bb54d0d0b98ee0583633ed88b21088a3957ccb675c0");
+	    ADD_CHECKPOINT(2000, "a739216d63de35fa69c74ff22c2ed201fd2d0dbe7c38a8bbdbb64368fd18aff1");
+	    ADD_CHECKPOINT(3000, "0d5882e703a4e715450cc2538ead37d2ad2960c0ad9245546187c04b11ae5b4c");
+	    ADD_CHECKPOINT(4000, "d66aee31dff6b06f5d6f56fdaab71247325b818968c3c555f6626969965487eb");
+	    ADD_CHECKPOINT(5000, "458bf83117978a24c16e77419d450e81dc808ed8288e3ff301f3e9ff41520b0a");
+	    ADD_CHECKPOINT(5353, "e96ad3449cec0f97978f1c79120d713c1753116d778b33c6d5609bed99fdd2a7");
+	    ADD_CHECKPOINT(5500, "58cea8b62686f3a3c0c8f9edd30b02810cad1033ad2eea05fe47f63f0838a460");
+	    ADD_CHECKPOINT(5544, "963e97cad472b7ab43676129d7eb87c0791ee0f160634ea7d26b02f29230c740");
+	    ADD_CHECKPOINT(6000, "50f4c25ab0997c79f47b32aa7a766a3821e5e40935d46e03260ca1a913138df1");
+	    ADD_CHECKPOINT(6500, "f26226611fcd1437882f1a3a484cc8823ea59d009cace890620c093b587b4487"); 
+	    ADD_CHECKPOINT(7000, "522b3f918a3976bf79b4802aba906c318880d73daef5e8a3d168b59096a43f3c");
+	    ADD_CHECKPOINT(8000, "ee949fccb6f4db661f5a38e4c8f487dbaf5bd18bacfb4d77b32eb3bc3abb7794");
+	    ADD_CHECKPOINT(9500, "b62d0dae7be7012138af83244160797389fffb3ef2aae2ec3d91082b1a58a047");
+	    ADD_CHECKPOINT(10000,"92388506769d6ee510af6f480099a1f5466a6cae855bb5c51e0bb328457cd5d4"); 
+	    ADD_CHECKPOINT(12000,"63554dd0ae6f178f5a8bb94232e5004cae09d3d797d0953c48d0cd93b6b3743c");
+	    ADD_CHECKPOINT(15622,"189a796e8fb84bdcca69cf8dc2336f0d652a11504dc9c8b5da7f217ae331e867");
+	    ADD_CHECKPOINT(20000, "5507b571ba1f634810627ca2a8450b894d474762cffd79ddbfaefee3b96f22a5");
+	    ADD_CHECKPOINT(32139,"b6bb051810a65fdf20c12b8b847e306e670861abeecbfb126b7eb3be55f559ac");
+	    ADD_CHECKPOINT(39638, "e8d7e2d5389ed04e6beaa53dbc6707a47e76d8f86f074a434ff2e4ff74cda5f3");
+	    ADD_CHECKPOINT(226000, "d4e076d8a4c23e6e51df50ae038f710fe83b1363c69b5d6c94c3d227912ff10c");
+	    ADD_CHECKPOINT(263664, "3ea3ebf33bc4c73b00d28addabdf47ca2bf9b0a202f2646a01f5a9121e5d3a54");
+	    ADD_CHECKPOINT(300000,  "8c5a9f86b20861c1dee6ab90ac86d0b1816163c11f5cf8e23566157e36043998");
+	 ADD_CHECKPOINT(400000, "5ea6a74691c402be4f428954c00c9b9359a9a1f9afac1317e8115cf793efa039");
+	 ADD_CHECKPOINT(500000, "0dbc3dbb1a91236aceef5a7099d5ce07b255648d84738c09bdf9bfd10fa2e44a");
+	 ADD_CHECKPOINT(600000, "0a762b3e457ecdc67bd14284aad87844d60f7449366843eca6758c3c82f77c7c");
+	 ADD_CHECKPOINT(650000, "ee01635e35376b62883cf502917cc1b7f4c1343916a50a1a14b20651c465a243");
+	 ADD_CHECKPOINT(666666, "462b294427f8866bede3ff041b94dc6fac31ea436dc5048f2d1a589b9ff40dce");
+	 ADD_CHECKPOINT(700000, "d406c6a4e55fc31fc0f9e26a1afea72125a5232aabb4268ea4cb7bc923cba6ea");
+	 ADD_CHECKPOINT(777777,   "f9229a8c352d04f32d66314cccdc16eae524db6f76dd0297faf51632de090981");
+	 ADD_CHECKPOINT(835123, "3a0cbe0745f8c9d4c9d01fa047de4a8751b8a18e4629a503bc00945c6f254de4");
+	 ADD_CHECKPOINT(900000,   "636fbd07ed37e6898f44c90f64d455cbd6313dcb4c0516674f37fc13184ef65c");
+	 ADD_CHECKPOINT(1000000,  "4f2702ebdd1c8698e4f9eb4ea0a1082845fbad3e5ce3993121594bf66c8bf405");
+	 ADD_CHECKPOINT(1111111,    "1d6d29f3a27847ec3836a65eb29977e5b8fda03430a27e49f7be8ffb0b81b01c");
+	 ADD_CHECKPOINT(1200000,  "0d348de52ab334632f5fd11346728c865fec2444c1c1fd38979d5be8086dcb0f");
+	 ADD_CHECKPOINT(1222222,    "ae92b5c9eddbaf8ea2c5a759078781d375f4992f082ae90d1d18bde8e4cda647");
+	 ADD_CHECKPOINT(1300000,   "a55a2233e036fecf6c26fdcb593857040b5705718169669d6b870f76249e9201");
+	 ADD_CHECKPOINT(1400000,  "38b004a89d0a4573d69c446edd249f6473e20ececa5e9e42d4b5eb44e4b48e16");
+	 ADD_CHECKPOINT(1447206,  "b8d0bea2ab54a1740b14d139709b9c72f7e0911a4342c91b5e9964cfac7f0abe");
     return true;
   }
 
@@ -313,23 +291,19 @@ namespace cryptonote
   {
     std::vector<std::string> records;
 
-    // All four MoneroPulse domains have DNSSEC on and valid
-    static const std::vector<std::string> dns_urls = { "checkpoints.moneropulse.se"
-						     , "checkpoints.moneropulse.org"
-						     , "checkpoints.moneropulse.net"
-						     , "checkpoints.moneropulse.co"
-    };
+    // All four DinastycoinPulse domains have DNSSEC on and valid
+    static const std::vector<std::string> dns_urls = {
+};
 
-    static const std::vector<std::string> testnet_dns_urls = { "testpoints.moneropulse.se"
-							     , "testpoints.moneropulse.org"
-							     , "testpoints.moneropulse.net"
-							     , "testpoints.moneropulse.co"
-    };
 
-    static const std::vector<std::string> stagenet_dns_urls = { "stagenetpoints.moneropulse.se"
-                   , "stagenetpoints.moneropulse.org"
-                   , "stagenetpoints.moneropulse.net"
-                   , "stagenetpoints.moneropulse.co"
+    static const std::vector<std::string> testnet_dns_urls = {
+};
+
+
+    static const std::vector<std::string> stagenet_dns_urls = { "stagenetpoints1.dinastycoin.com"
+                   , "stagenetpoints2.dinastycoin.com"
+                   , "stagenetpoints3.dinastycoin.com"
+                   , "stagenetpoints4.dinastycoin.com"
     };
 
     if (!tools::dns_utils::load_txt_records_from_dns(records, nettype == TESTNET ? testnet_dns_urls : nettype == STAGENET ? stagenet_dns_urls : dns_urls))
