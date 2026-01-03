@@ -44,8 +44,8 @@ namespace hw {
         bool apdu_verbose =true;
     }
 
-    #undef MONERO_DEFAULT_LOG_CATEGORY
-    #define MONERO_DEFAULT_LOG_CATEGORY "device.ledger"
+    #undef DINASTYCOIN_DEFAULT_LOG_CATEGORY
+    #define DINASTYCOIN_DEFAULT_LOG_CATEGORY "device.ledger"
 
     /* ===================================================================== */
     /* ===                           Debug                              ==== */

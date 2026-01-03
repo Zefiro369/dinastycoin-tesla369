@@ -39,8 +39,8 @@
 #include <string>
 #include <vector>
 
-#undef MONERO_DEFAULT_LOG_CATEGORY
-#define MONERO_DEFAULT_LOG_CATEGORY "multisig"
+#undef DINASTYCOIN_DEFAULT_LOG_CATEGORY
+#define DINASTYCOIN_DEFAULT_LOG_CATEGORY "multisig"
 
 namespace multisig {
 

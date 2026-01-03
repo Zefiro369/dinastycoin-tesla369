@@ -37,8 +37,8 @@
 #include "byte_slice.h"
 #include "rpc/zmq_pub.h"
 
-#undef MONERO_DEFAULT_LOG_CATEGORY
-#define MONERO_DEFAULT_LOG_CATEGORY "net.zmq"
+#undef DINASTYCOIN_DEFAULT_LOG_CATEGORY
+#define DINASTYCOIN_DEFAULT_LOG_CATEGORY "net.zmq"
 
 namespace cryptonote
 {

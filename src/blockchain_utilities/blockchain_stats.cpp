@@ -35,8 +35,8 @@
 #include "time_helper.h"
 #include "version.h"
 
-#undef MONERO_DEFAULT_LOG_CATEGORY
-#define MONERO_DEFAULT_LOG_CATEGORY "bcutil"
+#undef DINASTYCOIN_DEFAULT_LOG_CATEGORY
+#define DINASTYCOIN_DEFAULT_LOG_CATEGORY "bcutil"
 
 namespace po = boost::program_options;
 using namespace epee;

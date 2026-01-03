@@ -36,8 +36,8 @@
 
 using namespace epee;
 
-#undef MONERO_DEFAULT_LOG_CATEGORY
-#define MONERO_DEFAULT_LOG_CATEGORY "cn.mm"
+#undef DINASTYCOIN_DEFAULT_LOG_CATEGORY
+#define DINASTYCOIN_DEFAULT_LOG_CATEGORY "cn.mm"
 
 using namespace crypto;
 

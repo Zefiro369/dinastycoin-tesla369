@@ -63,8 +63,8 @@
 #include <miniupnp/miniupnpc/upnpcommands.h>
 #include <miniupnp/miniupnpc/upnperrors.h>
 
-#undef MONERO_DEFAULT_LOG_CATEGORY
-#define MONERO_DEFAULT_LOG_CATEGORY "net.p2p"
+#undef DINASTYCOIN_DEFAULT_LOG_CATEGORY
+#define DINASTYCOIN_DEFAULT_LOG_CATEGORY "net.p2p"
 
 #define MIN_WANTED_SEED_NODES 12
 

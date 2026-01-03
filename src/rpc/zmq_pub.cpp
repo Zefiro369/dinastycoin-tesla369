@@ -52,8 +52,8 @@
 #include "ringct/rctTypes.h"
 #include "cryptonote_core/cryptonote_tx_utils.h"
 
-#undef MONERO_DEFAULT_LOG_CATEGORY
-#define MONERO_DEFAULT_LOG_CATEGORY "net.zmq"
+#undef DINASTYCOIN_DEFAULT_LOG_CATEGORY
+#define DINASTYCOIN_DEFAULT_LOG_CATEGORY "net.zmq"
 
 namespace
 {
