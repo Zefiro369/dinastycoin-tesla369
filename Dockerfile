@@ -14,7 +14,11 @@ RUN set -ex && \
         pkg-config
 
 WORKDIR /src
-COPY . .
+RUN git clone --recursive https://github.com/monero-project/monero .
+RUN find . -type f -name "CMakeLists.txt" -exec sed -i 's/monero-/dinastycoin-/g' {} +
+RUN find . -type f -name "*.cpp" -exec sed -i 's/monero-/dinastycoin-/g' {} +
+RUN find . -type f -name "*.cpp" -exec sed -i 's/monerod/dinastycoind/g' {} +
+RUN sed -i 's/CRYPTONOTE_NAME                         "monero"/CRYPTONOTE_NAME                         "dinastycoin"/g' src/cryptonote_config.h
 
 ARG NPROC
 RUN set -ex && \

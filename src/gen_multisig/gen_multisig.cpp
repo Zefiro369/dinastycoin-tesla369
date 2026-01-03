@@ -166,7 +166,7 @@ int main(int argc, char* argv[])
     desc_params,
     boost::program_options::positional_options_description(),
     [](const std::string &s, bool emphasis){ tools::scoped_message_writer(emphasis ? epee::console_color_white : epee::console_color_default, true) << s; },
-    "monero-gen-multisig.log"
+    "dinastycoin-gen-multisig.log"
   );
   if (!vm)
     return 1;
