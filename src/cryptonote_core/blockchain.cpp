@@ -5500,6 +5500,7 @@ void Blockchain::cancel()
 static const char expected_block_hashes_hash[] = "06c61040ace2d58086f1f8f0c0a78881a71c88f2814307b19f881ef92680f6e0";
 void Blockchain::load_compiled_in_block_hashes(const GetCheckpointsCallback& get_checkpoints)
 {
+  return; // Dinastycoin: disable Monero compiled-in block hashes (fast sync)
   if (get_checkpoints == nullptr || !m_fast_sync)
   {
     return;
