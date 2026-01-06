@@ -1,6 +1,7 @@
-# Monero
+# Dinastycoin
 
-Copyright (c) 2014-2024, The Monero Project
+Copyright (c) 2016-2025, Dinastycoin Project
+Portions Copyright (c) 2014-2024 The Monero Project
 Portions Copyright (c) 2012-2013 The Cryptonote developers.
 
 ## Table of Contents
@@ -29,12 +30,11 @@ Portions Copyright (c) 2012-2013 The Cryptonote developers.
 
 ## Development resources
 
-- Web: [getmonero.org](https://getmonero.org)
-- Mail: [dev@getmonero.org](mailto:dev@getmonero.org)
-- GitHub: [https://github.com/monero-project/monero](https://github.com/monero-project/monero)
-- IRC: [#monero-dev on Libera](https://web.libera.chat/#monero-dev)
-- It is HIGHLY recommended that you join the #monero-dev IRC channel if you are developing software that uses Monero. Due to the nature of this open source software project, joining this channel and idling is the best way to stay updated on best practices and new developments in the Monero ecosystem. All you need to do is join the IRC channel and idle to stay updated with the latest in Monero development. If you do not, you risk wasting resources on developing integrations that are not compatible with the Monero network. The Monero core team and community continuously make efforts to communicate updates, developments, and documentation via other platforms – but for the best information, you need to talk to other Monero developers, and they are on IRC. #monero-dev is about Monero development, not getting help about using Monero, or help about development of other software, including yours, unless it also pertains to Monero code itself. For these cases, checkout #monero.
-
+- Web: [dinastycoin.com](https://dianstycoin.com)
+- Mail: [dev@dinastycoin.comg](mailto:dev@dinastycoin.com)
+- GitHub: [https://github.com/dinastyoffreedom/dinastycoin-tesla369](https://github.com/dinastyoffreedom/dinastycoin-tesla369)
+- Marketplace : [https://dinastycoin.club](https://dinastycoin.club)
+- It is HIGHLY recommended that you join the #telegram channel if you are developing software that uses dinastycoin. Due to the nature of this open source software project, joining this channel and idling is the best way to stay updated on best practices and new developments in the dinastycoin ecosystem. All you need to do is join telegram channel and idle to stay updated with the latest in Dinastycoin development. If you do not, you risk wasting resources on developing integrations that are not compatible with the Dinastycoin network. The Dinastycoin core team and community continuously make efforts to communicate updates, developments, and documentation via other platforms – but for the best information, you need to talk to other Dinastycoin developers, and they are on Telegram. help about development of other software, including yours, unless it also pertains to Dinastycoin code itself. For these cases, checkout #dinastycoin
 ## Vulnerability response
 
 - Our [Vulnerability Response Process](https://github.com/monero-project/meta/blob/master/VULNERABILITY_RESPONSE_PROCESS.md) encourages responsible disclosure

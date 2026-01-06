@@ -84,7 +84,10 @@
 #define DIFFICULTY_LAG                                  15  // !!!
 #define DIFFICULTY_CUT                                  60  // timestamps to cut after sorting
 #define DIFFICULTY_BLOCKS_COUNT                         DIFFICULTY_WINDOW + DIFFICULTY_LAG
-
+//added code for hardfork 13
+#define DIFFICULTY_WINDOW_V13                           30 // blocks
+#define DIFFICULTY_BLOCKS_COUNT_V13                     DIFFICULTY_WINDOW_V13 + 1
+//end
 
 #define CRYPTONOTE_LOCKED_TX_ALLOWED_DELTA_SECONDS_V1   DIFFICULTY_TARGET_V1 * CRYPTONOTE_LOCKED_TX_ALLOWED_DELTA_BLOCKS
 #define CRYPTONOTE_LOCKED_TX_ALLOWED_DELTA_SECONDS_V2   DIFFICULTY_TARGET_V2 * CRYPTONOTE_LOCKED_TX_ALLOWED_DELTA_BLOCKS
@@ -169,12 +172,12 @@
 
 #define THREAD_STACK_SIZE                       5 * 1024 * 1024
 
-// Monero's hardforks, for reference
+// dinsatycoins hardforks, for reference
 #define HF_VERSION_DYNAMIC_FEE                  4
 #define HF_VERSION_MIN_MIXIN_4                  6
 #define HF_VERSION_MIN_MIXIN_6                  7
 #define HF_VERSION_MIN_MIXIN_10                 8
-#define HF_VERSION_MIN_MIXIN_15                 15
+#define HF_VERSION_MIN_MIXIN_15                 17
 #define HF_VERSION_ENFORCE_RCT                  6
 #define HF_VERSION_PER_BYTE_FEE                 8
 #define HF_VERSION_SMALLER_BP                   10
@@ -185,14 +188,22 @@
 #define HF_VERSION_REJECT_SIGS_IN_COINBASE      12
 #define HF_VERSION_ENFORCE_MIN_AGE              12
 #define HF_VERSION_EFFECTIVE_SHORT_TERM_MEDIAN_IN_PENALTY 12
-#define HF_VERSION_EXACT_COINBASE               13
-#define HF_VERSION_CLSAG                        13
-#define HF_VERSION_DETERMINISTIC_UNLOCK_TIME    13
-#define HF_VERSION_BULLETPROOF_PLUS             15
-#define HF_VERSION_VIEW_TAGS                    15
-#define HF_VERSION_2021_SCALING                 15
+#define HF_VERSION_EXACT_COINBASE               17
+#define HF_VERSION_CLSAG                        17
+#define HF_VERSION_DETERMINISTIC_UNLOCK_TIME    17
+//add
+#define HF_VERSION_NEW_DIFFICULTY_APPLY         13
+#define HF_VERSION_VIEW_TAGS                    17
+//end
+#define HF_VERSION_BULLETPROOF_PLUS             17
+#define HF_VERSION_2021_SCALING                 17
+
 // Dinastycoin's new hardfork
 #define HF_VERSION_TESLA369                     17
+#define HF_HEIGHT_TESLA369_MAINNET 1480000
+#define HF_HEIGHT_TESLA369_TESTNET 200
+#define HF_HEIGHT_TESLA369_STAGENET 200
+#define HF_HEIGHT_NEW_DIFFICULTY_APPLY 152500
 
 
 #define PER_KB_FEE_QUANTIZATION_DECIMALS        8

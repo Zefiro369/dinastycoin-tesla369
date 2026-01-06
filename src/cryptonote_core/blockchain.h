@@ -267,6 +267,7 @@ namespace cryptonote
      * @return true
      */
     bool cleanup_handle_incoming_blocks(bool force_sync = false);
+    uint64_t get_difficulty_blocks_count() const;
 
     /**
      * @brief search the blockchain for a transaction by hash

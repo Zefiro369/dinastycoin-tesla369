@@ -60,8 +60,8 @@
 #include "common/data_cache.h"
 #include "time_helper.h"
 
-#undef DINASTYCOIN_DEFAULT_LOG_CATEGORY
-#define DINASTYCOIN_DEFAULT_LOG_CATEGORY "blockchain"
+#undef MONERO_DEFAULT_LOG_CATEGORY
+#define MONERO_DEFAULT_LOG_CATEGORY "blockchain"
 
 #define FIND_BLOCKCHAIN_SUPPLEMENT_MAX_SIZE (100*1024*1024) // 100 MB
 
@@ -850,6 +850,7 @@ bool Blockchain::get_block_by_hash(const crypto::hash &h, block &blk, bool *orph
 // last DIFFICULTY_BLOCKS_COUNT blocks and passes them to next_difficulty,
 // returning the result of that call.  Ignores the genesis block, and can use
 // less blocks than desired if there aren't enough.
+
 difficulty_type Blockchain::get_difficulty_for_next_block()
 {
   if (m_fixed_difficulty)
@@ -862,10 +863,6 @@ difficulty_type Blockchain::get_difficulty_for_next_block()
   crypto::hash top_hash = get_tail_id();
   {
     CRITICAL_REGION_LOCAL(m_difficulty_lock);
-    // we can call this without the blockchain lock, it might just give us
-    // something a bit out of date, but that's fine since anything which
-    // requires the blockchain lock will have acquired it in the first place,
-    // and it will be unlocked only when called from the getinfo RPC
     if (top_hash == m_difficulty_for_next_block_top_hash)
       return m_difficulty_for_next_block;
   }
@@ -874,24 +871,37 @@ difficulty_type Blockchain::get_difficulty_for_next_block()
   std::vector<uint64_t> timestamps;
   std::vector<difficulty_type> difficulties;
   uint64_t height;
-  top_hash = get_tail_id(height); // get it again now that we have the lock
-  ++height; // top block height to blockchain height
-  // ND: Speedup
-  // 1. Keep a list of the last 735 (or less) blocks that is used to compute difficulty,
-  //    then when the next block difficulty is queried, push the latest height data and
-  //    pop the oldest one from the list. This only requires 1x read per height instead
-  //    of doing 735 (DIFFICULTY_BLOCKS_COUNT).
+  top_hash = get_tail_id(height);
+  ++height;
+
+  uint64_t hf_height_tesla369 = 0;
+  switch (m_nettype)
+  {
+    case cryptonote::MAINNET: hf_height_tesla369 = HF_HEIGHT_TESLA369_MAINNET; break;
+    case cryptonote::TESTNET: hf_height_tesla369 = HF_HEIGHT_TESLA369_TESTNET; break;
+    case cryptonote::STAGENET: hf_height_tesla369 = HF_HEIGHT_TESLA369_STAGENET; break;
+    default: hf_height_tesla369 = HF_HEIGHT_TESLA369_MAINNET; break;
+  }
+
+  // Pre-TESLA369: Dinastycoin historical behavior (4.11 compatible)
+  const uint8_t hf_current = get_current_hard_fork_version();
+  const size_t target_pre = get_difficulty_target();
+
+  // ND: Speedup (735)
   if (m_reset_timestamps_and_difficulties_height)
     m_timestamps_and_difficulties_height = 0;
-  if (m_timestamps_and_difficulties_height != 0 && ((height - m_timestamps_and_difficulties_height) == 1) && m_timestamps.size() >= DIFFICULTY_BLOCKS_COUNT)
+
+  if (m_timestamps_and_difficulties_height != 0 &&
+      ((height - m_timestamps_and_difficulties_height) == 1) &&
+      m_timestamps.size() >= get_difficulty_blocks_count())
   {
     uint64_t index = height - 1;
     m_timestamps.push_back(m_db->get_block_timestamp(index));
     m_difficulties.push_back(m_db->get_block_cumulative_difficulty(index));
 
-    while (m_timestamps.size() > DIFFICULTY_BLOCKS_COUNT)
+    while (m_timestamps.size() > get_difficulty_blocks_count())
       m_timestamps.erase(m_timestamps.begin());
-    while (m_difficulties.size() > DIFFICULTY_BLOCKS_COUNT)
+    while (m_difficulties.size() > get_difficulty_blocks_count())
       m_difficulties.erase(m_difficulties.begin());
 
     m_timestamps_and_difficulties_height = height;
@@ -900,7 +910,7 @@ difficulty_type Blockchain::get_difficulty_for_next_block()
   }
   else
   {
-    uint64_t offset = height - std::min <uint64_t> (height, static_cast<uint64_t>(DIFFICULTY_BLOCKS_COUNT));
+    uint64_t offset = height - std::min<uint64_t>(height, static_cast<uint64_t>(get_difficulty_blocks_count()));
     if (offset == 0)
       ++offset;
 
@@ -911,7 +921,7 @@ difficulty_type Blockchain::get_difficulty_for_next_block()
       timestamps.reserve(height - offset);
       difficulties.reserve(height - offset);
     }
-    for (; offset < height; offset++)
+    for (; offset < height; ++offset)
     {
       timestamps.push_back(m_db->get_block_timestamp(offset));
       difficulties.push_back(m_db->get_block_cumulative_difficulty(offset));
@@ -921,14 +931,48 @@ difficulty_type Blockchain::get_difficulty_for_next_block()
     m_timestamps = timestamps;
     m_difficulties = difficulties;
   }
-  size_t target = get_difficulty_target();
-  difficulty_type diff = next_difficulty(timestamps, difficulties, target);
+
+  difficulty_type diff;
+
+  if (height < hf_height_tesla369)
+  {
+    if (height < HF_HEIGHT_NEW_DIFFICULTY_APPLY)
+      diff = next_difficulty(timestamps, difficulties, target_pre);
+    else
+      diff = next_difficulty_13(timestamps, difficulties, target_pre);
+
+    if (height >= 152495 && height <= 152505)
+      MINFO("diff calc debug: next height " << height
+            << ", hf_current " << (int)hf_current
+            << ", target " << target_pre
+            << ", timestamps " << timestamps.size()
+            << ", diffs " << difficulties.size());
+  }
+  else
+  {
+    // TESLA369+: Monero-modern target selection
+    const uint8_t hf_ideal = get_ideal_hard_fork_version(height);
+    const size_t target_post = (hf_ideal < 2) ? DIFFICULTY_TARGET_V1 : DIFFICULTY_TARGET_V2;
+
+    diff = next_difficulty(timestamps, difficulties, target_post);
+
+    if (height >= 152495 && height <= 152505)
+      MINFO("diff calc debug: next height " << height
+            << ", hf_ideal " << (int)hf_ideal
+            << ", target " << target_post
+            << ", timestamps " << timestamps.size()
+            << ", diffs " << difficulties.size());
+  }
+
+  if (height >= 152495 && height <= 152505)
+    MINFO("diff calc debug: computed diff " << diff);
 
   CRITICAL_REGION_LOCAL1(m_difficulty_lock);
   m_difficulty_for_next_block_top_hash = top_hash;
   m_difficulty_for_next_block = diff;
   return diff;
 }
+
 //------------------------------------------------------------------
 std::pair<bool, uint64_t> Blockchain::check_difficulty_checkpoints() const
 {
@@ -5500,93 +5544,7 @@ void Blockchain::cancel()
 static const char expected_block_hashes_hash[] = "06c61040ace2d58086f1f8f0c0a78881a71c88f2814307b19f881ef92680f6e0";
 void Blockchain::load_compiled_in_block_hashes(const GetCheckpointsCallback& get_checkpoints)
 {
-  return; // Dinastycoin: disable Monero compiled-in block hashes (fast sync)
-  if (get_checkpoints == nullptr || !m_fast_sync)
-  {
-    return;
-  }
-  const epee::span<const unsigned char> &checkpoints = get_checkpoints(m_nettype);
-  if (!checkpoints.empty())
-  {
-    MINFO("Loading precomputed blocks (" << checkpoints.size() << " bytes)");
-    if (m_nettype == MAINNET)
-    {
-      // first check hash
-      crypto::hash hash;
-      if (!tools::sha256sum(checkpoints.data(), checkpoints.size(), hash))
-      {
-        MERROR("Failed to hash precomputed blocks data");
-        return;
-      }
-      MINFO("precomputed blocks hash: " << hash << ", expected " << expected_block_hashes_hash);
-      cryptonote::blobdata expected_hash_data;
-      if (!epee::string_tools::parse_hexstr_to_binbuff(std::string(expected_block_hashes_hash), expected_hash_data) || expected_hash_data.size() != sizeof(crypto::hash))
-      {
-        MERROR("Failed to parse expected block hashes hash");
-        return;
-      }
-      const crypto::hash expected_hash = *reinterpret_cast<const crypto::hash*>(expected_hash_data.data());
-      if (hash != expected_hash)
-      {
-        MERROR("Block hash data does not match expected hash");
-        return;
-      }
-    }
-
-    if (checkpoints.size() > 4)
-    {
-      const unsigned char *p = checkpoints.data();
-      const uint32_t nblocks = *p | ((*(p+1))<<8) | ((*(p+2))<<16) | ((*(p+3))<<24);
-      if (nblocks > (std::numeric_limits<uint32_t>::max() - 4) / sizeof(hash))
-      {
-        MERROR("Block hash data is too large");
-        return;
-      }
-      const size_t size_needed = 4 + nblocks * (sizeof(crypto::hash) * 2);
-      if(checkpoints.size() != size_needed)
-      {
-        MERROR("Failed to load hashes - unexpected data size");
-        return;
-      }
-      else if(nblocks > 0 && nblocks > (m_db->height() + HASH_OF_HASHES_STEP - 1) / HASH_OF_HASHES_STEP)
-      {
-        p += sizeof(uint32_t);
-        m_blocks_hash_of_hashes.reserve(nblocks);
-        for (uint32_t i = 0; i < nblocks; i++)
-        {
-          crypto::hash hash_hashes, hash_weights;
-          memcpy(hash_hashes.data, p, sizeof(hash_hashes.data));
-          p += sizeof(hash_hashes.data);
-          memcpy(hash_weights.data, p, sizeof(hash_weights.data));
-          p += sizeof(hash_weights.data);
-          m_blocks_hash_of_hashes.push_back(std::make_pair(hash_hashes, hash_weights));
-        }
-        m_blocks_hash_check.resize(m_blocks_hash_of_hashes.size() * HASH_OF_HASHES_STEP, std::make_pair(crypto::null_hash, 0));
-        MINFO(nblocks << " block hashes loaded");
-
-        // FIXME: clear tx_pool because the process might have been
-        // terminated and caused it to store txs kept by blocks.
-        // The core will not call check_tx_inputs(..) for these
-        // transactions in this case. Consequently, the sanity check
-        // for tx hashes will fail in handle_block_to_main_chain(..)
-        CRITICAL_REGION_LOCAL(m_tx_pool);
-
-        std::vector<transaction> txs;
-        m_tx_pool.get_transactions(txs, true);
-
-        size_t tx_weight;
-        uint64_t fee;
-        bool relayed, do_not_relay, double_spend_seen, pruned;
-        transaction pool_tx;
-        blobdata txblob;
-        for(const transaction &tx : txs)
-        {
-          crypto::hash tx_hash = get_transaction_hash(tx);
-          m_tx_pool.take_tx(tx_hash, pool_tx, txblob, tx_weight, fee, relayed, do_not_relay, double_spend_seen, pruned);
-        }
-      }
-    }
-  }
+  // DO NOTHING
 }
 #endif
 
@@ -5673,7 +5631,14 @@ void Blockchain::send_miner_notifications(uint64_t height, const crypto::hash &s
     notifier(major_version, height, prev_id, seed_hash, diff, median_weight, already_generated_coins, tx_backlog);
   }
 }
-
+//added code for hardfork 13
+uint64_t Blockchain::get_difficulty_blocks_count() const
+{
+  if(get_current_hard_fork_version() < HF_VERSION_NEW_DIFFICULTY_APPLY)
+    return DIFFICULTY_BLOCKS_COUNT;
+  return DIFFICULTY_BLOCKS_COUNT_V13;
+}
+//end
 namespace cryptonote {
 template bool Blockchain::get_transactions(const std::vector<crypto::hash>&, std::vector<transaction>&, std::vector<crypto::hash>&, bool) const;
 template bool Blockchain::get_split_transactions_blobs(const std::vector<crypto::hash>&, std::vector<std::tuple<crypto::hash, cryptonote::blobdata, crypto::hash, cryptonote::blobdata>>&, std::vector<crypto::hash>&) const;
