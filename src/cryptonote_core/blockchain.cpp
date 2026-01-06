@@ -932,6 +932,7 @@ difficulty_type Blockchain::get_difficulty_for_next_block()
     m_difficulties = difficulties;
   }
 
+
   difficulty_type diff;
 
   if (height < hf_height_tesla369)
@@ -963,7 +964,7 @@ difficulty_type Blockchain::get_difficulty_for_next_block()
             << ", timestamps " << timestamps.size()
             << ", diffs " << difficulties.size());
   }
-
+  
   if (height >= 152495 && height <= 152505)
     MINFO("diff calc debug: computed diff " << diff);
 
