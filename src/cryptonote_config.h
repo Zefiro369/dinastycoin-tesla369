@@ -189,7 +189,7 @@
 #define HF_VERSION_ENFORCE_MIN_AGE              12
 #define HF_VERSION_EFFECTIVE_SHORT_TERM_MEDIAN_IN_PENALTY 12
 #define HF_VERSION_EXACT_COINBASE               17
-#define HF_VERSION_CLSAG                        17
+#define HF_VERSION_CLSAG                        14
 #define HF_VERSION_DETERMINISTIC_UNLOCK_TIME    17
 //add
 #define HF_VERSION_NEW_DIFFICULTY_APPLY         13
@@ -197,6 +197,8 @@
 //end
 #define HF_VERSION_BULLETPROOF_PLUS             17
 #define HF_VERSION_2021_SCALING                 17
+
+#define HF_VERSION_RCT_TYPE_5 14
 
 // Dinastycoin's new hardfork
 #define HF_VERSION_TESLA369                     17
