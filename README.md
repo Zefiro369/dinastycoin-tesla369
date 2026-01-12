@@ -666,7 +666,7 @@ to prune an existing blockchain using the `dinastycoin-blockchain-prune` tool or
 with an existing chain. If an existing chain exists, pruning will temporarily require disk space to store both the full
 and pruned blockchains.
 
-For more detailed information see the ['Pruning' entry in the Moneropedia](https://www.getmonero.org/resources/moneropedia/pruning.html)
+For more detailed information see the ['Pruning' entry in the Moneropedia](https://dinastycoin.com/pruning)
 
 ## Debugging
 
@@ -714,7 +714,7 @@ coredumpctl -1 gdb
 
 #### To run dinastycoin within gdb:
 
-Type `gdb /path/to/mdinastycoind`
+Type `gdb /path/to/dinastycoind`
 
 Pass command-line options with `--args` followed by the relevant arguments
 
