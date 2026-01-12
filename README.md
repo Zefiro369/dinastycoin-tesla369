@@ -87,7 +87,7 @@ As with many development projects, the repository on GitHub is considered to be 
 
 ## Supporting the project
 
-Monero is a 100% community-sponsored endeavor. If you want to join our efforts, the easiest thing you can do is support the project financially. Both Monero and Bitcoin donations can be made to **donate.getmonero.org** if using a client that supports the [OpenAlias](https://openalias.org) standard. Alternatively, you can send XMR to the Monero donation address via the `donate` command (type `help` in the command-line wallet for details).
+Monero is a 100% community-sponsored endeavor. If you want to join our efforts, the easiest thing you can do is support the project financially. Both Monero and Bitcoin donations can be made to **donate.getmonero.org** if using a client that supports the [OpenAlias](https://openalias.org) standard. Alternatively, you can send DCY to the Monero donation address via the `donate` command (type `help` in the command-line wallet for details).
 
 The Monero donation address is:  
 `888tNkZrPN6JsEgekjMnABU4TBzc2Dt29EPAvkRxbANsAnjyPbb3iQ1YBRk1UXcdRsiKc9dhwMVgN5S9cQUiyoogDavup3H`  

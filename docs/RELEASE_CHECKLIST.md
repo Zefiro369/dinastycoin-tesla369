@@ -30,7 +30,7 @@
   - [ ] Monerujo
   - [ ] Edge Wallet
   - [ ] Exodus
-  - [ ] XMRWallet
+  - [ ] DCYWallet
   - [ ] Feather Wallet
 - [ ] Notify exchanges
   - [ ] https://www.getmonero.org/community/merchants/#exchanges

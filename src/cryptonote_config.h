@@ -54,7 +54,7 @@
 // MONEY_SUPPLY - total number coins to be generated
 #define MONEY_SUPPLY                                    ((uint64_t)(2000440737095516150))
 #define EMISSION_SPEED_FACTOR_PER_MINUTE                (18)
-#define FINAL_SUBSIDY_PER_MINUTE                        ((uint64_t)300000000) // 0.3 DCY, Monero is 0.3 XMR, but with different decimal places
+#define FINAL_SUBSIDY_PER_MINUTE                        ((uint64_t)300000000) // 0.3 DCY,  monero is 0.3 but with different decimal places
 
 #define CRYPTONOTE_REWARD_BLOCKS_WINDOW                 100
 #define CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE_V2    60000
@@ -189,7 +189,7 @@
 #define HF_VERSION_ENFORCE_MIN_AGE              12
 #define HF_VERSION_EFFECTIVE_SHORT_TERM_MEDIAN_IN_PENALTY 12
 #define HF_VERSION_EXACT_COINBASE               17
-#define HF_VERSION_CLSAG                        17
+#define HF_VERSION_CLSAG                        14
 #define HF_VERSION_DETERMINISTIC_UNLOCK_TIME    17
 //add
 #define HF_VERSION_NEW_DIFFICULTY_APPLY         13
@@ -197,6 +197,8 @@
 //end
 #define HF_VERSION_BULLETPROOF_PLUS             17
 #define HF_VERSION_2021_SCALING                 17
+
+#define HF_VERSION_RCT_TYPE_5 14
 
 // Dinastycoin's new hardfork
 #define HF_VERSION_TESLA369                     17
