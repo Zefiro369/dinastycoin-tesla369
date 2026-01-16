@@ -95,3 +95,10 @@ __pycache__/
 *.log
 # build artifacts
 build/
+compare*.sh
+confrontalocaleconseed.sh
+make_checkpoints.sh
+rundinastycoinisolato.sh
+kitware-archive.sh
+* - Copia.*
+

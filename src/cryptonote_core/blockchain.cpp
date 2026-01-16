@@ -450,7 +450,20 @@ bool Blockchain::init(BlockchainDB* db, const network_type nettype, bool offline
   if (!difficulty_ok)
   {
     MERROR("Difficulty drift detected!");
+ const uint64_t hf_height_tesla369 =   
+    (m_nettype == cryptonote::MAINNET) ? HF_HEIGHT_TESLA369_MAINNET :
+    (m_nettype == cryptonote::TESTNET) ? HF_HEIGHT_TESLA369_TESTNET :
+    (m_nettype == cryptonote::STAGENET) ? HF_HEIGHT_TESLA369_STAGENET :
+                                         HF_HEIGHT_TESLA369_MAINNET;
+
+  // Ricalcolo SOLO dopo TESLA369 e SOLO se richiesto esplicitamente
+  if (m_db->height() >= hf_height_tesla369)
+  {
+    MERROR("Fixing difficulty DB (requested) from height " << difficulty_recalc_height
+           << " to height " << (m_db->height() - 1));
     recalculate_difficulties(difficulty_recalc_height);
+  }
+ 
   }
 
   {
@@ -936,17 +949,28 @@ difficulty_type Blockchain::get_difficulty_for_next_block()
 
   if (height < hf_height_tesla369)
   {
+
+
     if (height < HF_HEIGHT_NEW_DIFFICULTY_APPLY)
       diff = next_difficulty(timestamps, difficulties, target_pre);
     else
-      diff = next_difficulty_13(timestamps, difficulties, target_pre);
+      {
+      //  for (size_t i = 1; i < difficulties.size(); ++i)
+       // {
+       //   difficulty_type delta = difficulties[i] - difficulties[i - 1];
+      //    MERROR("Cumulative delta[" << i << "] = " << delta);
+      //  }
 
-    if (height >= 152495 && height <= 152505)
+        diff = next_difficulty_13(timestamps, difficulties, target_pre);
+    }
+    //if (height >= 152495 && height <= 152505)
       MINFO("diff calc debug: next height " << height
             << ", hf_current " << (int)hf_current
             << ", target " << target_pre
             << ", timestamps " << timestamps.size()
             << ", diffs " << difficulties.size());
+
+            
   }
   else
   {
@@ -956,7 +980,7 @@ difficulty_type Blockchain::get_difficulty_for_next_block()
 
     diff = next_difficulty(timestamps, difficulties, target_post);
 
-    if (height >= 152495 && height <= 152505)
+    //if (height >= 152495 && height <= 152505)
       MINFO("diff calc debug: next height " << height
             << ", hf_ideal " << (int)hf_ideal
             << ", target " << target_post
@@ -964,8 +988,16 @@ difficulty_type Blockchain::get_difficulty_for_next_block()
             << ", diffs " << difficulties.size());
   }
 
-  if (height >= 152495 && height <= 152505)
+  //if (height >= 152495 && height <= 152505)
     MINFO("diff calc debug: computed diff " << diff);
+
+if (diff < 1000)
+{
+  MERROR("LOW NEXT DIFFICULTY: " << diff << " next_height=" << height
+         << ", timestamps.size=" << timestamps.size()
+         << ", difficulties.size=" << difficulties.size());
+}
+
 
   CRITICAL_REGION_LOCAL1(m_difficulty_lock);
   m_difficulty_for_next_block_top_hash = top_hash;
@@ -1031,12 +1063,34 @@ size_t Blockchain::recalculate_difficulties(boost::optional<uint64_t> start_heig
     if (drift_start_height == 0)
     {
       difficulty_type existing_cum_diff = m_db->get_block_cumulative_difficulty(height);
-      if (recalculated_cum_diff != existing_cum_diff)
-      {
-        drift_start_height = height;
-        new_cumulative_difficulties.reserve(top_height + 1 - height);
-        LOG_ERROR("Difficulty drift found at height:" << height << ", hash:" << m_db->get_block_hash_from_height(height) << ", existing:" << existing_cum_diff << ", recalculated:" << recalculated_cum_diff);
-      }
+     
+ //     if (recalculated_cum_diff != existing_cum_diff)
+ //     {
+ //       drift_start_height = height;
+ //       new_cumulative_difficulties.reserve(top_height + 1 - height);
+ //       LOG_ERROR("Difficulty drift found at height:" << height << ", hash:" << m_db->get_block_hash_from_height(height) << ", existing:" << existing_cum_diff << ", recalculated:" << recalculated_cum_diff);
+ //     }
+       if (recalculated_cum_diff != existing_cum_diff)
+        {
+          drift_start_height = height;
+          new_cumulative_difficulties.reserve(top_height + 1 - height);
+
+          // Log dettagliato per debug drift
+          LOG_ERROR("Difficulty drift found at height:" << height
+                    << ", hash:" << m_db->get_block_hash_from_height(height)
+                    << ", existing:" << existing_cum_diff
+                    << ", recalculated:" << recalculated_cum_diff);
+
+          if (timestamps.size() > 0 && difficulties.size() > 0)
+          {
+            LOG_ERROR("Last timestamps and difficulties used for calculation:");
+            for (size_t idx = 0; idx < timestamps.size(); ++idx)
+            {
+              LOG_ERROR("  idx " << idx << ": ts=" << timestamps[idx] << ", diff=" << difficulties[idx]);
+            }
+          }
+        }
+        
     }
     if (drift_start_height > 0)
     {
