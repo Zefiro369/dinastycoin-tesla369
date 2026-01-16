@@ -87,18 +87,18 @@ As with many development projects, the repository on GitHub is considered to be 
 
 ## Supporting the project
 
-Dinastycoin is a 100% community-sponsored endeavor. If you want to join our efforts, the easiest thing you can do is support the project financially. Both Dinastycoin and Bitcoin donations can be made to **dinastycoin.com/donate* if using a client that supports the [OpenAlias](https://openalias.org) standard. Alternatively, you can send XMR to the Dinastycoin donation address via the `donate` command (type `help` in the command-line wallet for details).
+Dinastycoin is a 100% community-sponsored endeavor. If you want to join our efforts, the easiest thing you can do is support the project financially. Both Dinastycoin and Bitcoin donations can be made to **dinastycoin.com/donate* if using a client that supports the [OpenAlias](https://openalias.org) standard. Alternatively, you can send  to the Dinastycoin donation address via the `donate` command (type `help` in the command-line wallet for details).
 >>>>>>> 8f480fc2c506df0e4fb786380b0bc8cd96536b00
 
 The Dinastycoin donation address is:  
-` `  
+`NYz4jipYhytNJgmFMN5WeQRyFuRCdj5a3NzA6yRqgvJtYaN8vXd5iRdB6txiMhPnv8DyBKVEBN63B9cuEkHkRDSpACWKCZayDF`  
 Viewkey:  
 ` `  
 Base address for restoring with address and viewkey:
 ` `  
 
 The Bitcoin donation address is:  
-` `
+`bc1qh3nn08fc3krr0sxnmfct6n6wemc0d0a9ah2ycj`
 
 Core development funding and/or some supporting services are also graciously provided by [sponsors]( /):
 

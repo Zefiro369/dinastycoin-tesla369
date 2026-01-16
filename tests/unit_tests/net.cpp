@@ -78,6 +78,7 @@ namespace
         "zpv4fa3szgel7vf6jdjeugizdclq2vzkelscs2bhbgnlldzzggcen3ad.onion";
 }
 
+
 TEST(tor_address, constants)
 {
     static_assert(!net::tor_address::is_local(), "bad is_local() response");
