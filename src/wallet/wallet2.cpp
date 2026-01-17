@@ -12870,7 +12870,28 @@ uint64_t wallet2::get_daemon_blockchain_target_height(string &err)
 
 uint64_t wallet2::get_approximate_blockchain_height() const
 {
-  // Dinastycoin anchor (block 1)
+  const int seconds_per_block = DIFFICULTY_TARGET_V2;
+
+  if (m_nettype == MAINNET)
+  {
+    // Anchor su blocco reale Dinastycoin
+    const uint64_t anchor_height = 1457000;
+    const time_t   anchor_time   = 1768576586; // timestamp blocco 1457000
+
+    time_t now = time(NULL);
+    if (now <= anchor_time)
+      return anchor_height;
+
+    uint64_t h = anchor_height + (uint64_t)((now - anchor_time) / seconds_per_block);
+
+    // Margine per difetto (esempio 7 giorni)
+    const uint64_t safety = 7ULL * 24 * 60 * 60 / seconds_per_block; // 5040 blocchi
+    if (h > safety) h -= safety;
+
+    return h;
+  }
+
+  // fallback per testnet/stagenet (mantieni come prima)
   const time_t fork_time =
     m_nettype == TESTNET ? 1448285909 :
     m_nettype == STAGENET ? 1520937818 :
@@ -12881,11 +12902,8 @@ uint64_t wallet2::get_approximate_blockchain_height() const
     m_nettype == STAGENET ? 32000 :
     1; // MAINNET anchor height
 
-  const int seconds_per_block = DIFFICULTY_TARGET_V2;
-
   uint64_t approx_blockchain_height = fork_block + (time(NULL) - fork_time) / seconds_per_block;
 
-  // For Dinastycoin MAINNET, no known huge rollbacks: keep 0
   static const uint64_t approximate_rolled_back_blocks =
     m_nettype == TESTNET ? 342100 :
     m_nettype == STAGENET ? 60000 :
