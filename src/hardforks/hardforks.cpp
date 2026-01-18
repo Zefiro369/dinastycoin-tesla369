@@ -68,19 +68,37 @@ const hardfork_t mainnet_hard_forks[] = {
   { 13, 152500, 0, 1605752204 },
   // added harfork 14  // which is on or around the 1th of June, 2022. 
   { 14, 550000, 0, 1654089255 },
- { 17, 1480000, 0, 1767225600 },
+ { 17, 1512400, 0, 1767225600 },
 };
 const size_t num_mainnet_hard_forks = sizeof(mainnet_hard_forks) / sizeof(mainnet_hard_forks[0]);
 const uint64_t mainnet_hard_fork_version_1_till = 1009826;
 
 const hardfork_t testnet_hard_forks[] = {
-  { 1,   1,    0, 1341378000 },
-  // porta rapidamente la testnet a HF13
-  { 13,  50,   0, 1605752204 },
+  { 1, 1, 0, 1532344521 },
+  // version 2 starts from block 20, which is on or around the 20th of March, 2016. Fork time finalised on 2015-09-20. No fork voting occurs for the v2 fork.
+  { 2, 20, 0, 1532345299 },
+  // version 3 starts from block 40, which is on or around the 24th of September, 2016. Fork time finalised on 2016-03-21.
+  { 3, 40, 0, 1532348216 },
+  // version 4 starts from block 60, which is on or around the 5th of January, 2017. Fork time finalised on 2016-09-18.
+  { 4, 60, 0, 1532351344 },
+  // version 5 starts from block 80, which is on or around the 15th of April, 2017. Fork time finalised on 2017-03-14.
+  { 5, 80, 0, 1532352706 },  
+  // version 6 starts from block 100, which is on or around the 16th of September, 2017. Fork time finalised on 2017-08-18.
+  // version 7 starts from block 1546000, which is on or around the 6th of April, 2018. Fork time finalised on 2018-03-17.
+  { 7, 120, 0, 1532356226 },
+  // version 8 starts from block 72875, which is on or around the 18th of October, 2018. Fork time finalised on 2018-09-02.
+  { 8, 1000, 0, 1541572216 },
+  // version 9 starts from block 73595, which is on or around the 19th of October, 2018. Fork time finalised on 2018-09-02.
+  { 9, 2000, 0, 1541846405 },
+  // version 10 starts from block 77850
+  { 10, 2100, 0, 1542911469 },
+  { 11, 2200, 0, 1556115272 },
+  { 12, 2300, 0, 1556201672 },
+  { 13, 2350, 0, 1605752204 },
 // includi HF14 (anche se non cambia difficulty) per coerenza col mainnet
-  { 14,  120, 0, 1654089255 },
+  { 14, 2400, 0, 1654089255 },
   // il tuo big-bang: TESLA369 (Monero stable) a height vicino
-  { 17,  200,  0, 1767225600 },
+  { 17,  3000,  0, 1767225600 },
 };
 const size_t num_testnet_hard_forks = sizeof(testnet_hard_forks) / sizeof(testnet_hard_forks[0]);
 const uint64_t testnet_hard_fork_version_1_till = 624633;
