@@ -267,7 +267,7 @@ DNSResolver::DNSResolver() : m_data(new DNSResolverData())
     // should be a valid DNSSEC record, and switch to known good
     // DNSSEC resolvers if verification fails
     bool available, valid;
-    static const char *probe_hostname = "updates.moneropulse.org";
+    static const char *probe_hostname = "updates.dinastycoin.com";
     auto records = get_txt_record(probe_hostname, available, valid);
     if (!valid)
     {
@@ -410,14 +410,14 @@ std::string address_from_txt_record(const std::string& s)
   auto pos2 = s.find(";", pos);
   if (pos2 != std::string::npos)
   {
-    // length of address == 95, we can at least validate that much here
-    if (pos2 - pos == 95)
+    // length of address == 98, we can at least validate that much here
+    if (pos2 - pos == 98)
     {
-      return s.substr(pos, 95);
+      return s.substr(pos, 98);
     }
-    else if (pos2 - pos == 106) // length of address == 106 --> integrated address
+    else if (pos2 - pos == 109) // length of address == 106 --> integrated address
     {
-      return s.substr(pos, 106);
+      return s.substr(pos, 109);
     }
   }
   return {};
