@@ -311,6 +311,7 @@ namespace cryptonote
 
 
     static const std::vector<std::string> testnet_dns_urls = {
+       "seed4.dinastycoin.com"
 };
 
 
