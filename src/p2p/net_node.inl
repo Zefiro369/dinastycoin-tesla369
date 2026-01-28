@@ -730,16 +730,16 @@ namespace nodetool
     std::set<std::string> full_addrs;
     // TODO: add Dinastycoin seed nodes
     if (m_nettype == cryptonote::TESTNET)
-  {
-    full_addrs.insert("seed4.dinastycoin.com:38175")
-    return full_addrs;
-  }
+      {
+        full_addrs.insert("seed4.dinastycoin.com:38175");
+        return full_addrs;
+      }
 
      // mainnet (se vuoi anche fallback IP)
-  full_addrs.insert("seed1.dinastycoin.com:37175");
-  full_addrs.insert("seed2.dinastycoin.com:37175");
-  full_addrs.insert("seed3.dinastycoin.com:37175");
-  full_addrs.insert("seed4.dinastycoin.com:37175")
+    full_addrs.insert("seed1.dinastycoin.com:37175");
+    full_addrs.insert("seed2.dinastycoin.com:37175");
+    full_addrs.insert("seed3.dinastycoin.com:37175");
+    full_addrs.insert("seed4.dinastycoin.com:37175");
     return full_addrs;
   }
   //-----------------------------------------------------------------------------------
