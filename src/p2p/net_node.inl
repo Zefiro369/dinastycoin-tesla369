@@ -736,11 +736,10 @@ namespace nodetool
   }
 
      // mainnet (se vuoi anche fallback IP)
-  full_addrs.insert("seed1.dinastycoin.com:37175);
-  full_addrs.insert("seed2.dinastycoin.com:37175);
-  full_addrs.insert("seed3.dinastycoin.com:37175);
-  full_addrs.insert("seed4.dinastycoin.com:37175);
-
+  full_addrs.insert("seed1.dinastycoin.com:37175");
+  full_addrs.insert("seed2.dinastycoin.com:37175");
+  full_addrs.insert("seed3.dinastycoin.com:37175");
+  full_addrs.insert("seed4.dinastycoin.com:37175")
     return full_addrs;
   }
   //-----------------------------------------------------------------------------------
