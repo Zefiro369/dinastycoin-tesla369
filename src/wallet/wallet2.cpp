@@ -5190,10 +5190,18 @@ bool wallet2::load_keys_buf(const std::string& keys_buf, const epee::wipeable_st
     m_auto_low_priority = field_auto_low_priority;
     GET_FIELD_FROM_JSON_RETURN_ON_ERROR(json, nettype, uint8_t, Uint, false, static_cast<uint8_t>(m_nettype));
     // The network type given in the program argument is inconsistent with the network type saved in the wallet
-    THROW_WALLET_EXCEPTION_IF(static_cast<uint8_t>(m_nettype) != field_nettype, error::wallet_internal_error,
-    (boost::format("%s wallet cannot be opened as %s wallet")
-    % (field_nettype == 0 ? "Mainnet" : field_nettype == 1 ? "Testnet" : "Stagenet")
-    % (m_nettype == MAINNET ? "mainnet" : m_nettype == TESTNET ? "testnet" : "stagenet")).str());
+   // THROW_WALLET_EXCEPTION_IF(static_cast<uint8_t>(m_nettype) != field_nettype, error::wallet_internal_error,
+   // (boost::format("%s wallet cannot be opened as %s wallet")
+   // % (field_nettype == 0 ? "Mainnet" : field_nettype == 1 ? "Testnet" : "Stagenet")
+   // % (m_nettype == MAINNET ? "mainnet" : m_nettype == TESTNET ? "testnet" : "stagenet")).str());
+   THROW_WALLET_EXCEPTION_IF(field_nettype > 2, error::wallet_internal_error, "Invalid wallet nettype");
+
+if (static_cast<uint8_t>(m_nettype) != field_nettype)
+{
+  const auto old_nettype = m_nettype;
+  m_nettype = static_cast<cryptonote::network_type>(field_nettype);
+}
+
     GET_FIELD_FROM_JSON_RETURN_ON_ERROR(json, segregate_pre_fork_outputs, int, Int, false, true);
     m_segregate_pre_fork_outputs = field_segregate_pre_fork_outputs;
     GET_FIELD_FROM_JSON_RETURN_ON_ERROR(json, key_reuse_mitigation2, int, Int, false, true);
