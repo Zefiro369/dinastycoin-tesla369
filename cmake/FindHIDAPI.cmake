@@ -39,7 +39,9 @@ find_package_handle_standard_args(HIDAPI
 
 if(HIDAPI_FOUND)
   set(HIDAPI_LIBRARIES "${HIDAPI_LIBRARY}")
-  if((STATIC AND UNIX AND NOT APPLE) OR (DEPENDS AND CMAKE_SYSTEM_NAME STREQUAL "Linux") OR ANDROID)
+  # On Linux, hidapi-libusb may be available only as a static archive.
+  # In this case libusb must always be linked explicitly, even when STATIC=OFF.
+  if((STATIC AND UNIX AND NOT APPLE) OR (DEPENDS AND CMAKE_SYSTEM_NAME STREQUAL "Linux") OR ANDROID OR ((UNIX AND NOT APPLE) AND (HIDAPI_LIBRARY MATCHES "hidapi-libusb")))
     find_library(LIBUSB-1.0_LIBRARY usb-1.0)
     if(LIBUSB-1.0_LIBRARY)
       set(HIDAPI_LIBRARIES "${HIDAPI_LIBRARIES};${LIBUSB-1.0_LIBRARY}")

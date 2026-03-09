@@ -32,8 +32,10 @@ cmake_minimum_required(VERSION 3.10)
 message(STATUS "CMake version ${CMAKE_VERSION}")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-cmake_policy(SET CMP0167 OLD)
-set(CMAKE_POLICY_DEFAULT_CMP0167 OLD)
+if(POLICY CMP0167)
+  cmake_policy(SET CMP0167 OLD)
+  set(CMAKE_POLICY_DEFAULT_CMP0167 OLD)
+endif()
 
 
 list(INSERT CMAKE_MODULE_PATH 0
@@ -801,7 +803,7 @@ include(CheckTrezor)
   endif()
 
   # New in GCC 8.2
-  if (NOT OPENBSD AND NOT (WIN32 AND (CMAKE_C_COMPILER_ID STREQUAL "GNU" AND CMAKE_C_COMPILER_VERSION VERSION_LESS 9.1)))
+  if (NOT OPENBSD AND NOT (CMAKE_C_COMPILER_ID STREQUAL "GNU" AND CMAKE_C_COMPILER_VERSION VERSION_LESS 8.2))
     add_c_flag_if_supported(-fcf-protection=full C_SECURITY_FLAGS)
     add_cxx_flag_if_supported(-fcf-protection=full CXX_SECURITY_FLAGS)
   endif()
